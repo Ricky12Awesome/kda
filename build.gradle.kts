@@ -4,10 +4,11 @@ import org.jetbrains.kotlinx.serialization.gradle.SerializationGradleSubplugin
 plugins {
   kotlin("jvm") version "1.4-M1"
   kotlin("plugin.serialization") version "1.4-M1"
+  maven
   `maven-publish`
 }
 
-subprojects {
+allprojects {
   apply<KotlinPluginWrapper>()
   apply<SerializationGradleSubplugin>()
   apply<MavenPublishPlugin>()
