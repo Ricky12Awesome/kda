@@ -18,7 +18,9 @@ allprojects {
     jcenter()
     mavenCentral()
   }
-  
+}
+
+subprojects {
   kotlin.sourceSets["main"].kotlin.srcDir("./main/src/")
   sourceSets["main"].resources.srcDir("./main/resources/")
   kotlin.sourceSets["test"].kotlin.srcDir("./test/src/")
@@ -57,7 +59,7 @@ allprojects {
     compileKotlin {
       kotlinOptions.jvmTarget = "1.8"
     }
-    
+
     compileTestKotlin {
       kotlinOptions.jvmTarget = "1.8"
     }
