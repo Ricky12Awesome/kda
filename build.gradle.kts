@@ -4,18 +4,19 @@ import org.jetbrains.kotlinx.serialization.gradle.SerializationGradleSubplugin
 plugins {
   kotlin("jvm") version "1.4-M1"
   kotlin("plugin.serialization") version "1.4-M1"
-  maven
+  `maven-publish`
 }
 
 allprojects {
   apply<KotlinPluginWrapper>()
   apply<SerializationGradleSubplugin>()
-  apply<MavenPlugin>()
+  apply<MavenPublishPlugin>()
 
   repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
     jcenter()
     mavenCentral()
+    mavenLocal()
   }
 
   kotlin.sourceSets["main"].kotlin.srcDir("./main/src/")
@@ -37,9 +38,19 @@ allprojects {
     dependsOn(JavaPlugin.JAVADOC_TASK_NAME)
   }
 
-  artifacts {
-    archives(sourcesJar)
-    archives(javadocJar)
+  publishing {
+    publications {
+      create<MavenPublication>("maven") {
+        artifact(sourcesJar)
+        artifact(javadocJar)
+
+        from(components["java"])
+      }
+    }
+
+    repositories {
+      mavenLocal()
+    }
   }
 
   tasks {
