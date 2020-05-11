@@ -10,11 +10,8 @@ plugins {
 allprojects {
   apply<KotlinPluginWrapper>()
   apply<SerializationGradleSubplugin>()
-  apply<MavenPublishPlugin>()
   apply<MavenPlugin>()
-}
 
-subprojects {
   repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
     jcenter()
