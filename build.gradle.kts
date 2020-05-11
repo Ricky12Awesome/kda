@@ -8,19 +8,18 @@ plugins {
   `maven-publish`
 }
 
-allprojects {
+subprojects {
   apply<KotlinPluginWrapper>()
   apply<SerializationGradleSubplugin>()
   apply<MavenPublishPlugin>()
+  apply<MavenPlugin>()
 
   repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
     jcenter()
     mavenCentral()
   }
-}
 
-subprojects {
   kotlin.sourceSets["main"].kotlin.srcDir("./main/src/")
   sourceSets["main"].resources.srcDir("./main/resources/")
   kotlin.sourceSets["test"].kotlin.srcDir("./test/src/")
