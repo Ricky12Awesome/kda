@@ -19,6 +19,8 @@ allprojects {
     mavenLocal()
   }
 
+  if (this == rootProject) return@allprojects
+
   kotlin.sourceSets["main"].kotlin.srcDir("./main/src/")
   sourceSets["main"].resources.srcDir("./main/resources/")
   kotlin.sourceSets["test"].kotlin.srcDir("./test/src/")
