@@ -5,15 +5,16 @@ plugins {
   kotlin("jvm") version "1.4-M1"
   kotlin("plugin.serialization") version "1.4-M1"
   maven
-  `maven-publish`
 }
 
-subprojects {
+allprojects {
   apply<KotlinPluginWrapper>()
   apply<SerializationGradleSubplugin>()
   apply<MavenPublishPlugin>()
   apply<MavenPlugin>()
+}
 
+subprojects {
   repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
     jcenter()
@@ -39,19 +40,9 @@ subprojects {
     dependsOn(JavaPlugin.JAVADOC_TASK_NAME)
   }
 
-  publishing {
-    publications {
-      create<MavenPublication>("maven") {
-        artifact(sourcesJar)
-        artifact(javadocJar)
-
-        from(components["java"])
-      }
-    }
-
-    repositories {
-      mavenLocal()
-    }
+  artifacts {
+    archives(sourcesJar)
+    archives(javadocJar)
   }
 
   tasks {
