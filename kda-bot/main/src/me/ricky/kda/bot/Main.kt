@@ -4,16 +4,14 @@ import club.minnced.jda.reactor.ReactiveEventManager
 import club.minnced.jda.reactor.asMono
 import club.minnced.jda.reactor.on
 import me.ricky.kda.core.KDA
-import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
-import net.dv8tion.jda.api.requests.GatewayIntent
 import net.dv8tion.jda.api.requests.restaction.MessageAction
 
 fun main() {
   val token = System.getenv("BOT_TOKEN")
-  val manager = ReactiveEventManager()
+    ?: error("Cannot start bot because no token was provided.")
   val kda = KDA(token) {
-    setEventManager(manager)
+    setEventManager(ReactiveEventManager())
   }
 
   kda.on<GuildMessageReceivedEvent>()

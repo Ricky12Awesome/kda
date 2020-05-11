@@ -14,9 +14,9 @@ allprojects {
 
   repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
+    maven("https://kotlin.bintray.com/kotlinx")
     jcenter()
     mavenCentral()
-    mavenLocal()
   }
 
   if (this == rootProject) return@allprojects
