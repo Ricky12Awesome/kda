@@ -6,6 +6,6 @@
 * Cleaned up dependencies (by excluding duplicated depends)
 ### 1.2
 * Added Arrow Core
-* Added Command Manager [WIP]
+* Added Command Manager
 * Redesigned Language System
 * Added Server Data Manager

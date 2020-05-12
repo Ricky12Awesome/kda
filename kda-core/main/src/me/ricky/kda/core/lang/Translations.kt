@@ -12,38 +12,38 @@ import java.util.*
 import kotlin.streams.asSequence
 
 /**
- * Serializes [Message] as a primitive [String]
+ * Serializes [Text] as a primitive [String]
  */
-@Serializer(Message::class)
-object MessageSerializer : KSerializer<Message> {
+@Serializer(Text::class)
+object MessageSerializer : KSerializer<Text> {
   override val descriptor: SerialDescriptor = PrimitiveDescriptor(
     serialName = "me.ricky.kda.core.lang.Message",
     kind = PrimitiveKind.STRING
   )
 
-  override fun serialize(encoder: Encoder, value: Message) {
-    encoder.encodeString(value.message)
+  override fun serialize(encoder: Encoder, value: Text) {
+    encoder.encodeString(value.text)
   }
 
-  override fun deserialize(decoder: Decoder): Message {
-    return Message(decoder.decodeString())
+  override fun deserialize(decoder: Decoder): Text {
+    return Text(decoder.decodeString())
   }
 }
 
 /**
- * @param message Raw message with unfilled arguments to fill arguments use [Message.invoke]
+ * @param text Raw text with unfilled arguments to fill arguments use [Text.invoke]
  */
 @Serializable(MessageSerializer::class)
-class Message(val message: String) {
+class Text(val text: String = "") {
   /**
-   * Fills out arguments for the given [message]
+   * Fills out arguments for the given [text]
    */
   operator fun invoke(vararg args: Pair<String, String>, ignoreCase: Boolean = false): String {
-    return message.replaceAll(*args, ignoreCase = ignoreCase)
+    return text.replaceAll(*args, ignoreCase = ignoreCase)
   }
 
   override fun toString(): String {
-    return message
+    return text
   }
 }
 
