@@ -1,0 +1,8 @@
+{
+  "test": "CA: {text}",
+  "commands": {
+    "test": {
+      "message": "CA: Test"
+    }
+  }
+}

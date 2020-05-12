@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 val jdaVersion: String by rootProject
 val jdaReactorVersion: String by rootProject
 val logbackVersion: String by rootProject
@@ -5,6 +7,7 @@ val kmongoVersion: String by rootProject
 val mongodbVersion: String by rootProject
 val serializationVersion: String by rootProject
 val coroutineVersion: String by rootProject
+val arrowVersion: String by rootProject
 
 dependencies {
   // Kotlin
@@ -17,6 +20,11 @@ dependencies {
   api("org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serializationVersion") {
     exclude("org.jetbrains.kotlin", "kotlin-stdlib")
     exclude("org.jetbrains.kotlin", "kotlin-stdlib-common")
+  }
+
+  api("io.arrow-kt:arrow-core:$arrowVersion") {
+    exclude("org.jetbrains.kotlin", "kotlin-stdlib")
+    exclude("org.jetbrains.kotlin", "kotlin-stdlib-jdk7")
   }
 
   // Other

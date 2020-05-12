@@ -1,13 +1,30 @@
 package me.ricky.kda.bot.test
 
-import me.ricky.kda.core.lang.getMessage
-import me.ricky.kda.core.lang.initTranslations
-import java.util.*
+import kotlinx.serialization.Serializable
+import me.ricky.kda.core.lang.Message
+import me.ricky.kda.core.lang.loadTranslations
+
+@Serializable
+data class Translation(
+  val test: Message,
+  val commands: CommandTranslation
+)
+
+@Serializable
+data class CommandTranslation(
+  val test: TestCommandTranslation
+)
+
+@Serializable
+data class TestCommandTranslation(
+  val message: Message
+)
 
 fun main() {
-  initTranslations()
+  val translations = loadTranslations(Translation.serializer())
 
-  println(Locale.US.getMessage("test", "{oof}" to "123"))
-  println(Locale.ENGLISH.getMessage("test", "{oof}" to "123"))
-  println(Locale.JAPAN.getMessage("test", "{oof}" to "123"))
+  translations.values.forEach {
+    println(it.test("{text}" to "123 ABC"))
+    println(it.commands.test.message)
+  }
 }

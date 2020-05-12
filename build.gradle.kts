@@ -15,6 +15,7 @@ allprojects {
   repositories {
     maven("https://dl.bintray.com/kotlin/kotlin-eap")
     maven("https://kotlin.bintray.com/kotlinx")
+    maven("https://oss.jfrog.org/artifactory/oss-snapshot-local/")
     jcenter()
     mavenCentral()
   }
@@ -57,7 +58,10 @@ allprojects {
 
   tasks {
     compileKotlin {
-      kotlinOptions.jvmTarget = "1.8"
+      kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-XXLanguage:+InlineClasses")
+      }
     }
 
     compileTestKotlin {
