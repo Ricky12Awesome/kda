@@ -3,13 +3,13 @@ package me.ricky.kda.core.lang
 import kotlinx.serialization.*
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
-import me.ricky.kda.core.util.name
+import kotlinx.serialization.json.JsonObject
+import me.ricky.kda.core.util.deepMerge
 import me.ricky.kda.core.util.replaceAll
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.*
-import kotlin.streams.asSequence
 
 /**
  * Serializes [Text] as a primitive [String]
@@ -73,24 +73,35 @@ fun <T> loadTranslations(
   directory: Path = Paths.get("./lang"),
   default: Locale = Locale.US
 ): Translations<T> {
+  fun Locale.getFileName() = "${toLanguageTag()}.json"
+
   val json = Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true))
   val translations = mutableMapOf<Locale, T>()
-  val locales = Locale
-    .getAvailableLocales()
-    .associateBy {
-      "${it.toLanguageTag()}.json"
-    }
+  val defaultPath = directory.resolve(default.getFileName())
 
-  Files.list(directory)
-    .asSequence()
-    .filter { locales[it.name] != null }
-    .forEach { path ->
-      val locale = locales.getValue(path.name)
+  if (Files.notExists(defaultPath)) {
+    error("$defaultPath not found.")
+  }
 
-      Files.newBufferedReader(path).use {
-        translations[locale] = json.parse(serializer, it.readText())
+  val defaultJson = Files.newBufferedReader(defaultPath).use {
+    json.parse(JsonObject.serializer(), it.readText())
+  }
+
+  val defaultTranslation = json.fromJson(serializer, defaultJson)
+
+  Locale.getAvailableLocales().forEach { locale ->
+    translations[locale] = defaultTranslation
+
+    val path = directory.resolve(locale.getFileName())
+
+    if (Files.exists(path)) {
+      val localeJson = Files.newBufferedReader(path).use {
+        json.parse(JsonObject.serializer(), it.readText())
       }
+
+      translations[locale] = json.fromJson(serializer, defaultJson.deepMerge(localeJson))
     }
+  }
 
   return Translations(translations, default)
 }

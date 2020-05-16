@@ -15,7 +15,7 @@ import net.dv8tion.jda.api.requests.restaction.MessageAction
 
 @Serializable
 data class Translations(
-  override val noCommand: Text,
+  override val noCommand: Text = Text(),
   override val commands: Map<String, JsonElement>,
 ) : CommandManagerTranslation
 

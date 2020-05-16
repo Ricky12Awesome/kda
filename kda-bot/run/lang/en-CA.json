@@ -2,7 +2,7 @@
   "test": "CA: {text}",
   "commands": {
     "test": {
-      "message": "CA: Test"
+      "message": "You're in {guild}! (CA)"
     }
   }
 }
